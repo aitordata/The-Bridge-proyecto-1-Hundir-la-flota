@@ -1,4 +1,5 @@
-![imagen](./img/hundir-la-flota-juego-de-mesa.jpg)
+![Hundir la flota](./img/hundir-la-flota-juego-de-mesa.jpg)
+![Bridge](./img/bridge.png)
 
 # Proyecto 1: Hundir la flota
 
