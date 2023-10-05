@@ -63,6 +63,24 @@ def condicion_no_salir_tabla(eslora,orientacion,x,y):
             return False
         else:
             return True
+          
+def comprobar_barco_hundido(my_array,x,y): #Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
+    if len(my_array)-1==x and len(my_array)-1==y:
+         condicion=(my_array[x][y-1]!="O") and (my_array[x-1][y-1]!="O") and (my_array[x-1][y]!="O")
+         return condicion
+    elif len(my_array)-1>x and len(my_array)-1==y and x!=0:
+         condicion=(my_array[x-1][y]!="O")and (my_array[x-1][y-1]!="O")and(my_array[x][y-1]!="O")and(my_array[x+1][y]!="O")
+         return condicion 
+    elif 0==x and len(my_array)-1==y:
+         condicion= (my_array[x][y-1]!="O")and (my_array[x+1][y-1]!="O")and (my_array[x+1][y]!="O")
+         return condicion
+    elif len(my_array)-1==x and y< len(my_array)-1:
+          condicion= (my_array[x][y+1]!="O")and (my_array[x-1][y]!="O")and (my_array[x-1][y+1]!="O")and (my_array[x][y-1]!="O")and (my_array[x-1][y-1]!="O")
+          return condicion
+    else:
+      condicion= (my_array[x-1][y]!="O") and (my_array[x-1][y+1]!="O") and (my_array[x][y+1]!="O") and (my_array[x+1][y-1]!="O") and (my_array[x+1][y+1]!="O") and (my_array[x+1][y]!="O") and (my_array[x][y-1]!="O") and (my_array[x-1][y-1]!="O")
+      return condicion
+
 
 def condcionante_alrrededor(my_array,x,y):
     if len(my_array)-1==x and len(my_array)-1==y:
@@ -214,8 +232,13 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
             tablero[coord_x, coord_y] = "X"
             tablero_oculto[coord_x, coord_y] = "X"
             esloras_vivas_maquina-=1
-            limpiar_consola()
             print("Has acertado!")
+            barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
+            if barco_hundido:
+              tablero[coord_x, coord_y] = "!"
+              tablero_oculto[coord_x, coord_y] = "!"
+              print("Barco hundido!")
+            limpiar_consola()
            elif tablero[coord_x, coord_y] == " ":
             tablero[coord_x, coord_y] = "-"
             tablero_oculto[coord_x, coord_y] = "-"
@@ -243,6 +266,11 @@ def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
                  esloras_vivas_jugador-=1
                  limpiar_consola()
                  print("La máquina ha acertado!")
+                 barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
+                 if barco_hundido:
+                  tablero[coord_x, coord_y] = "!"
+                  tablero_oculto[coord_x, coord_y] = "!"
+                  print("Barco hundido!")
                 elif tablero[coord_x, coord_y] == " ":
                  tablero[coord_x, coord_y] = "-"
                  limpiar_consola()
