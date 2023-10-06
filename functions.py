@@ -443,6 +443,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
             tablero_oculto[coord_x, coord_y] = "X"
             esloras_vivas_maquina-=1
             print("Has acertado!")
+            time.sleep(1)
             barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
             if barco_hundido:
               tablero[coord_x, coord_y] = "!"
@@ -476,13 +477,15 @@ def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
                  tablero[coord_x, coord_y] = "X"
                  esloras_vivas_jugador-=1
                  limpiar_consola()
-                 print("La máquina ha acertado!")
+                 print(f"La máquina ha acertado en las coordenadas {coord_x,coord_y}")
+                 time.sleep(1)
                  barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
                  if barco_hundido:
                   tablero[coord_x, coord_y] = "!"
                   tablero_oculto[coord_x, coord_y] = "!"
                   comprobar_esloras_alrrededor_barco_hundido(tablero,coord_x,coord_y)
                   print("Barco hundido!")
+                  time.sleep(1)
                 elif tablero[coord_x, coord_y] == " ":
                  tablero[coord_x, coord_y] = "-"
                  limpiar_consola()
