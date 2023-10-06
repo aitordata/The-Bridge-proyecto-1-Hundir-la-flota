@@ -184,6 +184,67 @@ def colocar_barcos_manual(tablero_jug):
               continue
         except:
             print("Por favor, introduzca un caracter válido.")
+            
+    while contador_eslora3<2:
+        try:
+            eslora=3
+            orientación_barco_eslora_3=int(input("Posicionar barco eslora 3 horizontalmente (1) o verticalmente (2): "))
+            if orientación_barco_eslora_3==1:
+                    orientación_barco_eslora_3_string="horizontal"
+            elif orientación_barco_eslora_3==2:
+                    orientación_barco_eslora_3_string="vertical"  
+            coord_x=int(input("Introduca la coordenada x inicial (barco eslora 3): "))
+            coord_y=int(input("Introduca la coordenada y inicial (barco eslora 3): "))
+            coord_x2,coord_y2,coord_x3,coord_y3=eleguir_coordenadas(orientación_barco_eslora_3,coord_x,coord_y,eslora)
+            condicion1= condcionante_alrrededor(tablero_jug,coord_x,coord_y)
+            condicion2=condcionante_alrrededor(tablero_jug,coord_x2,coord_y2)
+            condicion3=condcionante_alrrededor(tablero_jug,coord_x3,coord_y3)
+            condicion_no_salir_var=condicion_no_salir_tabla(eslora,orientación_barco_eslora_3,coord_x,coord_y)
+            if tablero_jug[coord_x][coord_y]==" " and tablero_jug[coord_x2][coord_y2]==" "and tablero_jug[coord_x3][coord_y3]==" "  and condicion1 and condicion2 and condicion3 and condicion_no_salir_var:
+             tablero_jug[coord_x][coord_y]="O"
+             tablero_jug[coord_x2][coord_y2]="O"
+             tablero_jug[coord_x3][coord_y3]="O"
+             limpiar_consola()
+             print(f"Ha introducido un barco de 2 esloras en la posición inicial {coord_x,coord_y}, con orientación {orientación_barco_eslora_3_string}.")
+             hacer_tabla(tablero_jug,"Tabla del jugador")
+             contador_eslora3= contador_eslora3+1
+            else:
+             print("No es posible introducir el barco donde ha especificado, vuelva intentarlo teniendo presente las siguientes instruciones: Para colocar los barcos manualmente debes tener presente que (1) los barcos no pueden salirse del tablero, (2) no pueden tener otro barco en las coordenadas colindantes y (3) no puede haber más de un barco en la misma posición.")
+             continue
+        except:
+             print("Por favor, introduzca un caracter válido.")
+                 
+    while contador_eslora4<1:
+        try:
+            eslora=4
+            orientación_barco_eslora_4=int(input("Posicionar barco eslora 3 horizontalmente (1) o verticalmente (2): "))
+            if orientación_barco_eslora_4==1:
+                    orientación_barco_eslora_4_string="horizontal"
+            elif orientación_barco_eslora_4==2:
+                    orientación_barco_eslora_4_string="vertical"  
+            coord_x=int(input("Introduca la coordenada x inicial (barco eslora 4): "))
+            coord_y=int(input("Introduca la coordenada y inicial (barco eslora 4): "))
+            coord_x2,coord_y2,coord_x3,coord_y3,coord_x4,coord_y4=eleguir_coordenadas(orientación_barco_eslora_4,coord_x,coord_y,eslora)
+            condicion1=condcionante_alrrededor(tablero_jug,coord_x,coord_y)
+            condicion2=condcionante_alrrededor(tablero_jug,coord_x2,coord_y2)
+            condicion3=condcionante_alrrededor(tablero_jug,coord_x3,coord_y3)
+            condicion4=condcionante_alrrededor(tablero_jug,coord_x4,coord_y4)
+            condicion_no_salir_var=condicion_no_salir_tabla(eslora,orientación_barco_eslora_4,coord_x,coord_y)
+            if tablero_jug[coord_x][coord_y]==" " and tablero_jug[coord_x2][coord_x2]==" "and tablero_jug[coord_x3][coord_y3]==" " and tablero_jug[coord_x4][coord_y4]==" "and condicion1 and condicion2 and condicion3 and condicion4 and condicion_no_salir_var:
+             tablero_jug[coord_x][coord_y]="O"
+             tablero_jug[coord_x2][coord_y2]="O"
+             tablero_jug[coord_x3][coord_y3]="O"
+             tablero_jug[coord_x4][coord_y4]="O"
+             limpiar_consola()
+             print(f"Ha introducido un barco de 2 esloras en la posición inicial {coord_x,coord_y}, con orientación {orientación_barco_eslora_4_string}.")
+             hacer_tabla(tablero_jug,"Tabla del jugador")
+             contador_eslora4= contador_eslora4+1
+            else:
+              print("No es posible introducir el barco donde ha especificado, vuelva intentarlo teniendo presente las siguientes instruciones: Para colocar los barcos manualmente debes tener presente que (1) los barcos no pueden salirse del tablero, (2) no pueden tener otro barco en las coordenadas colindantes y (3) no puede haber más de un barco en la misma posición.")
+              continue
+        except:
+         print("Por favor, introduzca un caracter válido.")
+            
         
         
 colocar_barcos_manual(my_array)
