@@ -321,7 +321,104 @@ def colocar_barcos_manual(tablero_jug):
               continue
         except:
          print("Por favor, introduzca un caracter válido.")
+
+def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y): #Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
+    if len(my_array)-1==x and len(my_array)-1==y:
+         condicion=(my_array[x][y-1]=="X") or (my_array[x-1][y-1]=="X") or (my_array[x-1][y]=="X")
+         print("1")
+         if my_array[x][y-1]=="X":
+          my_array[x][y-1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
+          if my_array[x-1][y-1]=="X":
+             my_array[x-1][y-1]="!"
+             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
+          if my_array[x-1][y]=="X":
+             my_array[x-1][y]="!"
+             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
+         return condicion
+    elif len(my_array)-1>x and len(my_array)-1==y and x!=0:
+         condicion=(my_array[x-1][y]=="X")or (my_array[x-1][y-1]=="X")or(my_array[x][y-1]=="X")or(my_array[x+1][y]=="X")
+         print("2")
+         if my_array[x-1][y]=="X":
+          my_array[x-1][y]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
+         if my_array[x-1][y-1]=="X":
+          my_array[x-1][y-1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
+         if my_array[x][y-1]=="X":
+          my_array[x][y-1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
+         if my_array[x+1][y]=="X":
+          my_array[x+11][y]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y) 
+         return condicion 
+    elif 0==x and len(my_array)-1==y:
+         condicion= (my_array[x][y-1]=="X")or(my_array[x+1][y-1]=="X")or(my_array[x+1][y]=="X")
+         if my_array[x][y-1]=="X":
+          my_array[x][y-1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
+         if my_array[x+1][y]=="X":
+          my_array[x+1][y]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y) 
+         if my_array[x+1][y-1]=="X":
+          my_array[x+1][y-1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1) 
+         print("3")
+         return condicion
+    elif len(my_array)-1==x and y< len(my_array)-1:
+          condicion= (my_array[x][y+1]=="X")or(my_array[x-1][y]=="X")or(my_array[x-1][y+1]=="X")or(my_array[x][y-1]=="X")or(my_array[x-1][y-1]=="X")
+          print(4)
+          if my_array[x][y+1]=="X":
+              my_array[x][y+1]="!"
+              comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1)
+          if my_array[x-1][y]=="X":
+              my_array[x-1][y]="!"
+              comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
+          if my_array[x-1][y+1]=="X":
+             my_array[x-1][y+1]="!"
+             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1)
+          if my_array[x][y-1]=="X":
+              my_array[x][y-1]="!"
+              comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
+          if my_array[x-1][y-1]=="X":
+            my_array[x-1][y-1]="!"
+            comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
+    else:
+      condicion= (my_array[x-1][y]=="X")or(my_array[x-1][y+1]=="X")or(my_array[x][y+1]=="X")or(my_array[x+1][y-1]=="X")or(my_array[x+1][y+1]=="X")or (my_array[x+1][y]=="X")or (my_array[x][y-1]=="X")or(my_array[x-1][y-1]=="X")
+      print(5)
+      if my_array[x-1][y]=="X":
+          my_array[x-1][y]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
+          
+      if my_array[x-1][y+1]=="X":
+          my_array[x-1][y+1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1)
+          
+      if my_array[x][y+1]=="X":
+              my_array[x][y+1]="!"
+              comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1)
+              
+      if my_array[x+1][y-1]=="X":
+          my_array[x+1][y-1]="!"
+          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1) 
+          
+      if my_array[x+1][y+1]=="X":
+            my_array[x+1][y+1]="!"
+            comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y+1)
             
+      if my_array[x+1][y]=="X":
+           my_array[x+1][y]="!"
+           comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y)
+           
+      if my_array[x][y-1]=="X":
+           my_array[x][y-1]="!"
+           comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
+           return condicion
+      if my_array[x-1][y-1]=="X":
+            my_array[x-1][y-1]="!"
+            comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
+              
+      return condicion           
           
 def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
         limpiar_consola() 
@@ -350,6 +447,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
             if barco_hundido:
               tablero[coord_x, coord_y] = "!"
               tablero_oculto[coord_x, coord_y] = "!"
+              comprobar_esloras_alrrededor_barco_hundido(tablero,coord_x,coord_y)
               print("Barco hundido!")
             limpiar_consola()
            elif tablero[coord_x, coord_y] == " ":
@@ -383,6 +481,7 @@ def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
                  if barco_hundido:
                   tablero[coord_x, coord_y] = "!"
                   tablero_oculto[coord_x, coord_y] = "!"
+                  comprobar_esloras_alrrededor_barco_hundido(tablero,coord_x,coord_y)
                   print("Barco hundido!")
                 elif tablero[coord_x, coord_y] == " ":
                  tablero[coord_x, coord_y] = "-"
@@ -436,8 +535,6 @@ def empezar_hundir_la_flota(esloras_vivas_jugador,esloras_vivas_maquina,tablero_
       colocar_barcos(tablero_maquina)
       colocar_barcos(tablero_jugador)
       
-     
-    
     if dificultad==1: 
         while esloras_vivas_jugador>0 and esloras_vivas_maquina>0:            
          jugar=disparo_usuario(tablero_maquina,tablero_maquina_vista_usuario,esloras_vivas_maquina,tablero_jugador)
