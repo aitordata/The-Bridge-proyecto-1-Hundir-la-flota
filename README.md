@@ -9,7 +9,7 @@
 
 ## Aspectos clave del programa
 
-- #### Los barcos se colocaran aleatoriamente en el tablero (10x10).
+- #### Los barcos de la máquina se colocaran siempre aleatoriamente en el tablero, el usuario podrá eleguir si prefiere un tablero aleatorio o introducir manualmente los barcos.
 - #### Los disparos se realizan introduciendo las coordenadas **x** e **y**
 - #### Si se acierta el disparo, se dispara de nuevo.
 - #### Se podrá eleguir entre tres niveles de dificultad, la cual está proporcionalmente relacionada con la cantidad de disparos que realiza la máquina por cada turno del usuario.
