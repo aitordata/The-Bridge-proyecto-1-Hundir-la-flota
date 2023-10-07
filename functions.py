@@ -8,11 +8,6 @@ from variables import tablero_jugador,tablero_maquina,tablero_maquina_vista_usua
 from variables import esloras_vivas_jugador,esloras_vivas_maquina
 from variables import sonido_acertado,sonido_fallado
 
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "sí"
-pygame.init()
-pygame.mixer.init()
-
-
 def limpiar_consola():
     os.system('clear')
     
