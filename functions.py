@@ -8,39 +8,27 @@ from variables import tablero_jugador,tablero_maquina,tablero_maquina_vista_usua
 from variables import esloras_vivas_jugador,esloras_vivas_maquina
 from variables import sonido_acertado,sonido_fallado
 
-def limpiar_consola():
+def limpiar_consola(): #Limpia la consola
     os.system('clear')
     
-def hacer_tabla(tablero, titulo="Tabla"): #Esta funcion se ha realizado con chat gpt
+def hacer_tabla(tablero, titulo="Tabla"): #Esta funcion se ha realizado con chat gpt, imprime una tabla a partir de un numpy arry
     tablero = list(tablero)
-    
-    # Verificar que el tablero tenga 10 filas y 10 columnas
     if len(tablero) != 10 or any(len(fila) != 10 for fila in tablero):
         return
-
-    # Crear una lista de listas que contenga los datos y los encabezados
     data = []
     for i in range(10):
-        fila = [i]  # Agregar el encabezado en el eje Y (fila)
+        fila = [i]  
         fila.extend(tablero[i])
         data.append(fila)
-
-    # Encabezados de la tabla
-    headers_x = [""] + list(range(10))  # Encabezados en el eje X (columna)
-
-    # Imprimir el título
+    headers_x = [""] + list(range(10))  
     print(titulo)
-
-    # Imprimir la tabla en la consola
     tabla_final = tabulate(data, headers_x, tablefmt="fancy_grid")
-
-    # Imprimir el encabezado en el eje X y la tabla
     print(tabla_final)
 
 
 
     
-def condicion_no_salir_tabla(eslora,orientacion,x,y):
+def condicion_no_salir_tabla(eslora,orientacion,x,y): #Función que devuelve True si los barcos no se salen de la tabla y False en caso contrario
     if eslora==2:
         if orientacion==1 and y==0:
             return False
@@ -81,7 +69,7 @@ def comprobar_barco_hundido(my_array,x,y): #Devuelve True cuando el barco no tie
       return condicion
 
 
-def condcionante_alrrededor(my_array,x,y):
+def condcionante_alrrededor(my_array,x,y):#Comprueba que no hay otro barco alrredor de unas coordenadas x e y.
     if len(my_array)-1==x and len(my_array)-1==y:
          condicion=(my_array[x][y-1]==" ") and (my_array[x-1][y-1]==" ") and (my_array[x-1][y]==" ")
          return condicion
@@ -98,12 +86,12 @@ def condcionante_alrrededor(my_array,x,y):
       condicion= (my_array[x-1][y]==" ") and (my_array[x-1][y+1]==" ") and (my_array[x][y+1]==" ") and (my_array[x+1][y-1]==" ") and (my_array[x+1][y+1]==" ") and (my_array[x+1][y]==" ") and (my_array[x][y-1]==" ") and (my_array[x-1][y-1]==" ")
       return condicion
   
-def eleguir_orientacion():
+def eleguir_orientacion(): #Elige aleatoriamente la orientacion (horizontal=1,vertical=2)
       orientacion= np.random.randint(1,3)
       # horizontal=1 ; vertical=2 
       return orientacion
     
-def eleguir_coordenadas(orientación,x,y,eslora):
+def eleguir_coordenadas(orientación,x,y,eslora): #Pasandole la orientacion, las coordenads iniciales y el tamaño de eslora, devuelve las coordenadas de todas las esloras del barco
         if eslora ==2:
          if orientación==1:
                  coordenada_x=x
@@ -145,7 +133,7 @@ def eleguir_coordenadas(orientación,x,y,eslora):
                 return [coordenada_x,coordenada_y,coordenada_x2,coordenada_y2,coordenada_x3,coordenada_y3]
                       
 
-def colocar_barcos(my_array):
+def colocar_barcos(my_array): #Coloca los barcos aleatoriamente, sin que se solapen, se salgan del tablero o haya otro barco en las posiciones colindantes. 
      contador_eslora1=0
      contador_eslora2=0
      contador_eslora3=0
@@ -211,7 +199,7 @@ def colocar_barcos(my_array):
          else:
            continue
 
-def colocar_barcos_manual(tablero_jug):
+def colocar_barcos_manual(tablero_jug): #Colocacion manual de los barcos, proporcionando coordenadas iniciales y orientación
     contador_eslora1=0
     contador_eslora2=0
     contador_eslora3=0
@@ -322,7 +310,7 @@ def colocar_barcos_manual(tablero_jug):
         except:
          print("Por favor, introduzca un caracter válido.")
 
-def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y): #Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
+def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y): #Recibe como parametro las coordenadas de una eslora hundida, y evalua si hay más esloras a su alrrededor, cambiando "X" por "!" en caso de que las haya.
     if len(my_array)-1==x and len(my_array)-1==y:
          condicion=(my_array[x][y-1]=="X") or (my_array[x-1][y-1]=="X") or (my_array[x-1][y]=="X")
          print("1")
@@ -419,13 +407,13 @@ def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y): #Devuelve True cua
             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
               
       return condicion    
-def sonido_disparo_acertado_play():
+def sonido_disparo_acertado_play(): #Reproduce el sonido de acierto
   pygame.mixer.Sound.play(sonido_acertado)   
       
-def sonido_disparo_fallado_play():
+def sonido_disparo_fallado_play(): #Reproduce el sonido de fallo
   pygame.mixer.Sound.play(sonido_fallado)   
           
-def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
+def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #Disparo del usuario introduciendo coordenadas
         limpiar_consola() 
         time.sleep(2)
         hacer_tabla(tablerojug, "Tablero del jugador")
@@ -476,7 +464,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
         else: 
           return True
                  
-def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
+def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto): #Disparo de la máquina con coordenadas aleatorias
         while True: 
                 coord_x = np.random.randint(0, 10)
                 coord_y = np.random.randint(0, 10)
@@ -505,7 +493,7 @@ def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
                 elif tablero[coord_x, coord_y] == "-":
                  continue
          
-def bienvenida_y_dificultad():
+def bienvenida_y_dificultad(): #Pregunta la dificultad deseada
     print("Bienvenido al juego Hundir la flota, las reglas son blablabla")
     while True:
      try:
@@ -521,7 +509,7 @@ def bienvenida_y_dificultad():
      except:
          print("Por favor,introduzca un número del 1 al 3.")
          
-def preguntar_colocar_barcos_manual():
+def preguntar_colocar_barcos_manual(): #Pregunta si desea colocar los barcos manuelmente
    try: 
      colocar_barcos_manual= int(input("Pulse 1 si desea un tablero aleatorio o 2 si prefiere introducir los barcos manualmente: "))
      if colocar_barcos_manual==1:
@@ -533,11 +521,11 @@ def preguntar_colocar_barcos_manual():
        preguntar_colocar_barcos_manual()
    except:
      print("Por favor introduzca un input válido.")
+
+     
   
 def empezar_hundir_la_flota(esloras_vivas_jugador,esloras_vivas_maquina,tablero_maquina_vista_usuario,tablero_jugador):
-  
     limpiar_consola()
-    
     dificultad=bienvenida_y_dificultad()
     colocar_barcos_manual_var=preguntar_colocar_barcos_manual()
     if colocar_barcos_manual_var:
@@ -582,10 +570,8 @@ def empezar_hundir_la_flota(esloras_vivas_jugador,esloras_vivas_maquina,tablero_
      print("Felicidades, has ganado!")
     elif esloras_vivas_jugador==0:
      print("La máquina ha ganado, intentalo de nuevo!")
-     
-def salir_hundir_la_flota():
-     print("Has salido de Hundir la flota, vuelve pronto!")
-     
+    else:
+      print("Has salido del juego Hundir la flota, vuelve pronto.")
      
      
     
