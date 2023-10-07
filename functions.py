@@ -2,11 +2,16 @@ import numpy as np
 import os
 from tabulate import tabulate
 import time
-from variables import tablero_jugador
-from variables import tablero_maquina
-from variables import tablero_maquina_vista_usuario
-from variables import esloras_vivas_jugador
-from variables import esloras_vivas_maquina
+import pygame
+
+from variables import tablero_jugador,tablero_maquina,tablero_maquina_vista_usuario
+from variables import esloras_vivas_jugador,esloras_vivas_maquina
+from variables import sonido_acertado,sonido_fallado
+
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "sí"
+pygame.init()
+pygame.mixer.init()
+
 
 def limpiar_consola():
     os.system('clear')
@@ -418,7 +423,12 @@ def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y): #Devuelve True cua
             my_array[x-1][y-1]="!"
             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
               
-      return condicion           
+      return condicion    
+def sonido_disparo_acertado_play():
+  pygame.mixer.Sound.play(sonido_acertado)   
+      
+def sonido_disparo_fallado_play():
+  pygame.mixer.Sound.play(sonido_fallado)   
           
 def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
         limpiar_consola() 
@@ -443,6 +453,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
             tablero_oculto[coord_x, coord_y] = "X"
             esloras_vivas_maquina-=1
             print("Has acertado!")
+            sonido_disparo_acertado_play()
             time.sleep(1)
             barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
             if barco_hundido:
@@ -456,6 +467,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug):
             tablero_oculto[coord_x, coord_y] = "-"
             limpiar_consola()
             print("Has fallado!")
+            sonido_disparo_fallado_play()
             break
            elif tablero[coord_x, coord_y] == "X":
             print("Disparo previamente realizado!")
@@ -478,6 +490,7 @@ def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
                  esloras_vivas_jugador-=1
                  limpiar_consola()
                  print(f"La máquina ha acertado en las coordenadas {coord_x,coord_y}")
+                 sonido_disparo_acertado_play()
                  time.sleep(1)
                  barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
                  if barco_hundido:
@@ -489,6 +502,7 @@ def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto):
                 elif tablero[coord_x, coord_y] == " ":
                  tablero[coord_x, coord_y] = "-"
                  limpiar_consola()
+                 sonido_disparo_fallado_play()
                  print("La máquina ha fallado!, es tu turno!")
                  break
                 elif tablero[coord_x, coord_y] == "X":
