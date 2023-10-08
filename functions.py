@@ -3,7 +3,6 @@ import os
 from tabulate import tabulate
 import time
 import pygame
-
 from variables import tablero_jugador,tablero_maquina,tablero_maquina_vista_usuario
 from variables import esloras_vivas_jugador,esloras_vivas_maquina
 from variables import sonido_acertado,sonido_fallado
@@ -48,7 +47,7 @@ def condicion_no_salir_tabla(eslora,orientacion,x,y): #Función que devuelve Tru
         else:
             return True
           
-def comprobar_barco_hundido(my_array,x,y):#Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
+def comprobar_barco_hundido_2(my_array,x,y):#Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
     if x==0: 
         if y==0:
             condicion=(my_array[x][y+1]!="O")and (my_array[x+1][y]!="O")and (my_array[x+1][y+1]!="O")
@@ -79,6 +78,152 @@ def comprobar_barco_hundido(my_array,x,y):#Devuelve True cuando el barco no tien
         else:
             condicion=(my_array[x][y-1]!="O")and (my_array[x-1][y-1]!="O")and(my_array[x-1][y]!="O")and(my_array[x-1][y+1]!="O")and (my_array[x][y+1]!="O")
             return condicion
+
+def comprobar_barco_hundido(my_array,x,y):#Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
+    if x==0: 
+        if y==0:
+            condicion=(my_array[x][y+1]!="O")and(my_array[x+1][y]!="O")and (my_array[x+1][y+1]!="O") 
+            if  my_array[x][y+1]=="X":
+                condicion=comprobar_barco_hundido(my_array,x,y+1)
+                if my_array[x][y+2]=="X":
+                  condicion=comprobar_barco_hundido(my_array,x,y+2)
+            if  my_array[x+1][y]=="X":
+                condicion=comprobar_barco_hundido(my_array,x+1,y) 
+                if my_array[x+2][y]=="X":
+                  condicion=comprobar_barco_hundido(my_array,x+2,y) 
+            return condicion 
+        elif y==len(my_array)-1:
+            condicion=(my_array[x][y-1]!="O")and (my_array[x+1][y-1]!="O") and (my_array[x+1][y]!="O")
+            if my_array[x][y-1]=="X":
+                condicion=comprobar_barco_hundido(my_array,x,y-1)
+                if my_array[x][y-2]=="X":
+                    condicion=comprobar_barco_hundido(my_array,x,y-2)           
+            if my_array[x+1][y]=="X":
+                condicion= comprobar_barco_hundido(my_array,x+1,y)
+                if my_array[x+2][y]=="X":
+                    condicion= comprobar_barco_hundido(my_array,x+2,y)        
+            return condicion     
+        else:
+            condicion=(my_array[x][y-1]!="O")and (my_array[x+1][y-1]!="O")and(my_array[x+1][y]!="O") and (my_array[x+1][y+1]!="O") and (my_array[x][y+1]!="O")
+            if condicion:
+                if y==len(my_array)-2:
+                    if my_array[x+1][y]=="X":
+                     condicion= comprobar_barco_hundido(my_array,x+1,y)
+                     if my_array[x+2][y]=="X":
+                        condicion= comprobar_barco_hundido(my_array,x+2,y)
+                    if my_array[x][y-1]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x,y-1)
+                    return condicion 
+                else: 
+                 if my_array[x+1][y]=="X":
+                    condicion= comprobar_barco_hundido(my_array,x+1,y)
+                    if my_array[x+2][y]=="X":
+                        condicion= comprobar_barco_hundido(my_array,x+2,y)
+                 if my_array[x][y+1]=="X":
+                    condicion= comprobar_barco_hundido(my_array,x,y+1)
+                    if my_array[x][y+2]=="X":
+                        condicion= comprobar_barco_hundido(my_array,x,y+2) 
+                return condicion  
+            else:
+             return condicion 
+    
+    elif x>0 and x<(len(my_array)-1):
+        if y==0:
+            condicion=(my_array[x-1][y]!="O")and(my_array[x-1][y+1]!="O")and(my_array[x][y+1]!="O")and(my_array[x+1][y+1]!="O")and(my_array[x+1][y]!="O")
+            if condicion:
+                if x==len(my_array)-2:
+                    if  my_array[x+1][y]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x+1,y) 
+                    if my_array[x][y+1]=="X":
+                        condicion= comprobar_barco_hundido_2(my_array,x,y+1)
+                        if my_array[x][y+2]=="X":
+                            condicion= comprobar_barco_hundido_2(my_array,x,y+2) 
+                    if my_array[x-1][y]=="X":
+                            condicion= comprobar_barco_hundido_2(my_array,x-1,y) 
+                    
+                else:
+                    if  my_array[x+1][y]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x+1,y) 
+                     if my_array[x+2][y]=="X":
+                      condicion=comprobar_barco_hundido_2(my_array,x+2,y)
+                    if my_array[x][y+1]=="X":
+                        condicion= comprobar_barco_hundido_2(my_array,x,y+1)
+                        if my_array[x][y+2]=="X":
+                            condicion= comprobar_barco_hundido_2(my_array,x,y+2) 
+                return condicion
+            else:
+             return condicion
+         
+        elif y==len(my_array)-1:
+            condicion=(my_array[x-1][y]!="O")and(my_array[x-1][y-1]!="O")and(my_array[x][y-1]!="O")and(my_array[x+1][y-1]!="O")and(my_array[x+1][y]!="O")
+            if condicion:
+                if x==len(my_array)-2:
+                    if my_array[x-1][y]=="X":
+                     condicion= comprobar_barco_hundido_2(my_array,x-1,y)
+                     if my_array[x-2][y]=="X":
+                        condicion= comprobar_barco_hundido_2(my_array,x-2,y) 
+                    if my_array[x][y-1]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x,y-1)
+                     if my_array[x][y-2]=="X":
+                        condicion=comprobar_barco_hundido_2(my_array,x,y-2)  
+                    return condicion 
+                else: 
+                    if  my_array[x+1][y]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x+1,y) 
+                     if my_array[x+2][y]=="X":
+                      condicion=comprobar_barco_hundido_2(my_array,x+2,y)
+                    if my_array[x][y-1]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x,y-1)
+                     if my_array[x][y-2]=="X":
+                        condicion=comprobar_barco_hundido_2(my_array,x,y-2)  
+                    return condicion
+            else:          
+              return condicion 
+        else:
+            condicion=(my_array[x-1][y]!="O") and (my_array[x-1][y+1]!="O") and (my_array[x][y+1]!="O") and (my_array[x+1][y-1]!="O") and (my_array[x+1][y+1]!="O") and (my_array[x+1][y]!="O") and (my_array[x][y-1]!="O") and (my_array[x-1][y-1]!="O")
+            if condicion:
+                if (x==len(my_array)-2) and (y==len(my_array)-2):
+                    if my_array[x][y-1]=="X":
+                     condicion=comprobar_barco_hundido_2(my_array,x,y-1)
+                     if my_array[x][y-2]=="X":
+                        condicion=comprobar_barco_hundido_2(my_array,x,y-2) 
+                    if my_array[x-1][y]=="X":
+                     condicion= comprobar_barco_hundido_2(my_array,x-1,y)
+                     if my_array[x-2][y]=="X":
+                        condicion= comprobar_barco_hundido_2(my_array,x-2,y) 
+                    return condicion
+                elif (x==len(my_array)-1) and (y==len(my_array)-2):
+                     if my_array[x][y-1]=="X":
+                      condicion=comprobar_barco_hundido_2(my_array,x,y-1)
+                     if my_array[x][y-2]=="X":
+                        condicion=comprobar_barco_hundido_2(my_array,x,y-2) 
+                     if my_array[x+1][y]=="X":
+                      condicion= comprobar_barco_hundido_2(my_array,x+1,y)
+                      if my_array[x+2][y]=="X":
+                        condicion= comprobar_barco_hundido_2(my_array,x+2,y) 
+                else:
+                    if x==len(my_array)-1:
+                        if my_array[x][y-1]=="X":
+                         condicion=comprobar_barco_hundido_2(my_array,x,y+1)
+                         if my_array[x][y-2]=="X":
+                          condicion=comprobar_barco_hundido_2(my_array,x,y+2) 
+                        if my_array[x-1][y]=="X":
+                          condicion= comprobar_barco_hundido_2(my_array,x-1,y)
+                          if my_array[x-2][y]=="X":
+                           condicion= comprobar_barco_hundido_2(my_array,x-2,y) 
+                        return condicion
+                    else:
+                         if my_array[x][y+1]=="X":
+                          condicion=comprobar_barco_hundido_2(my_array,x,y+1)
+                          if my_array[x][y+2]=="X":
+                            condicion=comprobar_barco_hundido_2(my_array,x,y+2)
+                         if my_array[x-1][y]=="X":
+                          condicion= comprobar_barco_hundido_2(my_array,x-1,y)
+                          if my_array[x-2][y]=="X":
+                           condicion= comprobar_barco_hundido_2(my_array,x-2,y) 
+                         return condicion       
+            else:
+              return condicion
 
 
 
