@@ -24,10 +24,7 @@ def hacer_tabla(tablero, titulo="Tabla"): #Esta funcion se ha realizado con chat
     print(titulo)
     tabla_final = tabulate(data, headers_x, tablefmt="fancy_grid")
     print(tabla_final)
-
-
-
-    
+   
 def condicion_no_salir_tabla(eslora,orientacion,x,y): #Función que devuelve True si los barcos no se salen de la tabla y False en caso contrario
     if eslora==2:
         if orientacion==1 and y==0:
@@ -51,40 +48,71 @@ def condicion_no_salir_tabla(eslora,orientacion,x,y): #Función que devuelve Tru
         else:
             return True
           
-def comprobar_barco_hundido(my_array,x,y): #Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
-    if len(my_array)-1==x and len(my_array)-1==y:
-         condicion=(my_array[x][y-1]!="O") and (my_array[x-1][y-1]!="O") and (my_array[x-1][y]!="O")
-         return condicion
-    elif len(my_array)-1>x and len(my_array)-1==y and x!=0:
-         condicion=(my_array[x-1][y]!="O")and (my_array[x-1][y-1]!="O")and(my_array[x][y-1]!="O")and(my_array[x+1][y]!="O")
-         return condicion 
-    elif 0==x and len(my_array)-1==y:
-         condicion= (my_array[x][y-1]!="O")and (my_array[x+1][y-1]!="O")and (my_array[x+1][y]!="O")
-         return condicion
-    elif len(my_array)-1==x and y< len(my_array)-1:
-          condicion= (my_array[x][y+1]!="O")and (my_array[x-1][y]!="O")and (my_array[x-1][y+1]!="O")and (my_array[x][y-1]!="O")and (my_array[x-1][y-1]!="O")
-          return condicion
-    else:
-      condicion= (my_array[x-1][y]!="O") and (my_array[x-1][y+1]!="O") and (my_array[x][y+1]!="O") and (my_array[x+1][y-1]!="O") and (my_array[x+1][y+1]!="O") and (my_array[x+1][y]!="O") and (my_array[x][y-1]!="O") and (my_array[x-1][y-1]!="O")
-      return condicion
+def comprobar_barco_hundido(my_array,x,y):#Devuelve True cuando el barco no tiene esloras vivas alrrededor -es decir, se ha hundido- y false en caso contrario.
+    if x==0: 
+        if y==0:
+            condicion=(my_array[x][y+1]!="O")and (my_array[x+1][y]!="O")and (my_array[x+1][y+1]!="O")
+            return condicion 
+        elif y==len(my_array)-1:
+            condicion=(my_array[x][y-1]!="O")and (my_array[x+1][y-1]!="O") and (my_array[x+1][y]!="O")
+            return condicion
+        else:
+            condicion=(my_array[x][y-1]!="O")and (my_array[x+1][y-1]!="O")and(my_array[x+1][y]!="O") and (my_array[x+1][y+1]!="O") and (my_array[x][y+1]!="O")
+            return condicion 
+    elif x>0 and x<(len(my_array)-1):
+        if y==0:
+            condicion=(my_array[x-1][y]!="O")and(my_array[x-1][y+1]!="O")and(my_array[x][y+1]!="O")and(my_array[x+1][y+1]!="O")and(my_array[x+1][y]!="O")
+            return condicion
+        elif y==len(my_array)-1:
+            condicion=(my_array[x-1][y]!="O")and(my_array[x-1][y-1]!="O")and(my_array[x][y-1]!="O")and(my_array[x+1][y-1]!="O")and(my_array[x+1][y]!="O")
+            return condicion
+        else:
+            condicion=(my_array[x-1][y]!="O") and (my_array[x-1][y+1]!="O") and (my_array[x][y+1]!="O") and (my_array[x+1][y-1]!="O") and (my_array[x+1][y+1]!="O") and (my_array[x+1][y]!="O") and (my_array[x][y-1]!="O") and (my_array[x-1][y-1]!="O")
+            return condicion
+    elif x==len(my_array)-1:
+        if y==0:
+            condicion=(my_array[x-1][y]!="O")and(my_array[x-1][y+1]!="O")and(my_array[x][y+1]!="O")
+            return condicion
+        elif y==len(my_array)-1:
+            condicion=(my_array[x-1][y]!="O")and(my_array[x-1][y-1]!="O")and(my_array[x][y-1]!="O")
+            return condicion
+        else:
+            condicion=(my_array[x][y-1]!="O")and (my_array[x-1][y-1]!="O")and(my_array[x-1][y]!="O")and(my_array[x-1][y+1]!="O")and (my_array[x][y+1]!="O")
+            return condicion
+
 
 
 def condcionante_alrrededor(my_array,x,y):#Comprueba que no hay otro barco alrredor de unas coordenadas x e y.
-    if len(my_array)-1==x and len(my_array)-1==y:
-         condicion=(my_array[x][y-1]==" ") and (my_array[x-1][y-1]==" ") and (my_array[x-1][y]==" ")
-         return condicion
-    elif len(my_array)-1>x and len(my_array)-1==y and x!=0:
-         condicion=(my_array[x-1][y]==" ")and (my_array[x-1][y-1]==" ")and(my_array[x][y-1]==" ")and(my_array[x+1][y]==" ")
-         return condicion 
-    elif 0==x and len(my_array)-1==y:
-         condicion= (my_array[x][y-1]==" ")and (my_array[x+1][y-1]==" ")and (my_array[x+1][y]==" ")
-         return condicion
-    elif len(my_array)-1==x and y< len(my_array)-1:
-          condicion= (my_array[x][y+1]==" ")and (my_array[x-1][y]==" ")and (my_array[x-1][y+1]==" ")and (my_array[x][y-1]==" ")and (my_array[x-1][y-1]==" ")
-          return condicion
-    else:
-      condicion= (my_array[x-1][y]==" ") and (my_array[x-1][y+1]==" ") and (my_array[x][y+1]==" ") and (my_array[x+1][y-1]==" ") and (my_array[x+1][y+1]==" ") and (my_array[x+1][y]==" ") and (my_array[x][y-1]==" ") and (my_array[x-1][y-1]==" ")
-      return condicion
+    if x==0: 
+        if y==0:
+            condicion=(my_array[x][y+1]==" ")and (my_array[x+1][y]==" ")and (my_array[x+1][y+1]==" ")
+            return condicion 
+        elif y==len(my_array)-1:
+            condicion=(my_array[x][y-1]==" ")and (my_array[x+1][y-1]==" ") and (my_array[x+1][y]==" ")
+            return condicion
+        else:
+            condicion=(my_array[x][y-1]==" ")and (my_array[x+1][y-1]==" ")and(my_array[x+1][y]==" ") and (my_array[x+1][y+1]==" ") and (my_array[x][y+1]==" ")
+            return condicion 
+    elif x>0 and x<(len(my_array)-1):
+        if y==0:
+            condicion=(my_array[x-1][y]==" ")and(my_array[x-1][y+1]==" ")and(my_array[x][y+1]==" ")and(my_array[x+1][y+1]==" ")and(my_array[x+1][y]==" ")
+            return condicion
+        elif y==len(my_array)-1:
+            condicion=(my_array[x-1][y]==" ")and(my_array[x-1][y-1]==" ")and(my_array[x][y-1]==" ")and(my_array[x+1][y-1]==" ")and(my_array[x+1][y]==" ")
+            return condicion
+        else:
+            condicion=(my_array[x-1][y]==" ") and (my_array[x-1][y+1]==" ") and (my_array[x][y+1]==" ") and (my_array[x+1][y-1]==" ") and (my_array[x+1][y+1]==" ") and (my_array[x+1][y]==" ") and (my_array[x][y-1]==" ") and (my_array[x-1][y-1]==" ")
+            return condicion
+    elif x==len(my_array)-1:
+        if y==0:
+            condicion=(my_array[x-1][y]==" ")and(my_array[x-1][y+1]==" ")and(my_array[x][y+1]==" ")
+            return condicion
+        elif y==len(my_array)-1:
+            condicion=(my_array[x-1][y]==" ")and(my_array[x-1][y-1]==" ")and(my_array[x][y-1]==" ")
+            return condicion
+        else:
+            condicion=(my_array[x][y-1]==" ")and (my_array[x-1][y-1]==" ")and(my_array[x-1][y]==" ")and(my_array[x-1][y+1]==" ")and (my_array[x][y+1]==" ")
+            return condicion
   
 def eleguir_orientacion(): #Elige aleatoriamente la orientacion (horizontal=1,vertical=2)
       orientacion= np.random.randint(1,3)
@@ -310,103 +338,238 @@ def colocar_barcos_manual(tablero_jug): #Colocacion manual de los barcos, propor
         except:
          print("Por favor, introduzca un caracter válido.")
 
-def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y): #Recibe como parametro las coordenadas de una eslora hundida, y evalua si hay más esloras a su alrrededor, cambiando "X" por "!" en caso de que las haya.
-    if len(my_array)-1==x and len(my_array)-1==y:
-         condicion=(my_array[x][y-1]=="X") or (my_array[x-1][y-1]=="X") or (my_array[x-1][y]=="X")
-         print("1")
-         if my_array[x][y-1]=="X":
-          my_array[x][y-1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
-          if my_array[x-1][y-1]=="X":
-             my_array[x-1][y-1]="!"
-             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
-          if my_array[x-1][y]=="X":
-             my_array[x-1][y]="!"
-             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
-         return condicion
-    elif len(my_array)-1>x and len(my_array)-1==y and x!=0:
-         condicion=(my_array[x-1][y]=="X")or (my_array[x-1][y-1]=="X")or(my_array[x][y-1]=="X")or(my_array[x+1][y]=="X")
-         print("2")
-         if my_array[x-1][y]=="X":
-          my_array[x-1][y]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
-         if my_array[x-1][y-1]=="X":
-          my_array[x-1][y-1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
-         if my_array[x][y-1]=="X":
-          my_array[x][y-1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
-         if my_array[x+1][y]=="X":
-          my_array[x+11][y]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y) 
-         return condicion 
-    elif 0==x and len(my_array)-1==y:
-         condicion= (my_array[x][y-1]=="X")or(my_array[x+1][y-1]=="X")or(my_array[x+1][y]=="X")
-         if my_array[x][y-1]=="X":
-          my_array[x][y-1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
-         if my_array[x+1][y]=="X":
-          my_array[x+1][y]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y) 
-         if my_array[x+1][y-1]=="X":
-          my_array[x+1][y-1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1) 
-         print("3")
-         return condicion
-    elif len(my_array)-1==x and y< len(my_array)-1:
-          condicion= (my_array[x][y+1]=="X")or(my_array[x-1][y]=="X")or(my_array[x-1][y+1]=="X")or(my_array[x][y-1]=="X")or(my_array[x-1][y-1]=="X")
-          print(4)
-          if my_array[x][y+1]=="X":
-              my_array[x][y+1]="!"
-              comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1)
-          if my_array[x-1][y]=="X":
-              my_array[x-1][y]="!"
-              comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
-          if my_array[x-1][y+1]=="X":
-             my_array[x-1][y+1]="!"
-             comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1)
-          if my_array[x][y-1]=="X":
-              my_array[x][y-1]="!"
-              comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
-          if my_array[x-1][y-1]=="X":
-            my_array[x-1][y-1]="!"
-            comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
-    else:
-      condicion= (my_array[x-1][y]=="X")or(my_array[x-1][y+1]=="X")or(my_array[x][y+1]=="X")or(my_array[x+1][y-1]=="X")or(my_array[x+1][y+1]=="X")or (my_array[x+1][y]=="X")or (my_array[x][y-1]=="X")or(my_array[x-1][y-1]=="X")
-      print(5)
-      if my_array[x-1][y]=="X":
-          my_array[x-1][y]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y)
-          
-      if my_array[x-1][y+1]=="X":
-          my_array[x-1][y+1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1)
-          
-      if my_array[x][y+1]=="X":
-              my_array[x][y+1]="!"
-              comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1)
-              
-      if my_array[x+1][y-1]=="X":
-          my_array[x+1][y-1]="!"
-          comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1) 
-          
-      if my_array[x+1][y+1]=="X":
-            my_array[x+1][y+1]="!"
-            comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y+1)
+
+def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y,my_array_oculto=None):#Comprueba que no hay otro barco alrredor de unas coordenadas x e y.
+    if x==0: 
+        if y==0:
+            if my_array[x][y+1]=="X":
+                    my_array[x][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1,my_array_oculto)
+            if my_array[x+1][y]=="X":
+                my_array[x+1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y,my_array_oculto)
+            if my_array[x+1][y+1]=="X":
+                    my_array[x+1][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x+1][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y+1,my_array_oculto)
             
-      if my_array[x+1][y]=="X":
-           my_array[x+1][y]="!"
-           comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y)
+        elif y==len(my_array)-1:
+            
+            if my_array[x][y-1]=="X":
+                my_array[x][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1,my_array_oculto)   
+            if my_array[x+1][y-1]=="X":
+                my_array[x+1][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1,my_array_oculto)
+            if my_array[x+1][y]=="X":
+                my_array[x+1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y,my_array_oculto)
+            
+        else:
+            
+            if my_array[x][y-1]=="X":
+                my_array[x][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1,my_array_oculto)
+            if my_array[x+1][y-1]=="X":
+                my_array[x+1][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1,my_array_oculto)
+            if my_array[x+1][y]=="X":
+                my_array[x+1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y,my_array_oculto)
+            if my_array[x+1][y+1]=="X":
+                    my_array[x+1][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x+1][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y+1,my_array_oculto)
+            if my_array[x][y+1]=="X":
+                    my_array[x][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1,my_array_oculto)
+        
+            
+    elif x>0 and x<(len(my_array)-1):
+        if y==0:
            
-      if my_array[x][y-1]=="X":
-           my_array[x][y-1]="!"
-           comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1)
-           return condicion
-      if my_array[x-1][y-1]=="X":
-            my_array[x-1][y-1]="!"
-            comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1)
-              
-      return condicion    
+            if my_array[x-1][y]=="X":
+                my_array[x-1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y,my_array_oculto)
+            if my_array[x-1][y+1]=="X":
+                my_array[x-1][y+1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y+1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1,my_array_oculto)
+            if my_array[x][y+1]=="X":
+                    my_array[x][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1,my_array_oculto)
+            if my_array[x+1][y+1]=="X":
+                    my_array[x+1][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x+1][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y+1,my_array_oculto)
+            if my_array[x+1][y]=="X":
+                my_array[x+1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y,my_array_oculto)
+            
+        elif y==len(my_array)-1:
+            
+            if my_array[x-1][y]=="X":
+                my_array[x-1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y,my_array_oculto)
+            if my_array[x-1][y-1]=="X":
+                    my_array[x-1][y-1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x-1][y-1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1,my_array_oculto)
+            if my_array[x][y-1]=="X":
+                my_array[x][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1,my_array_oculto)
+            if my_array[x+1][y-1]=="X":
+                my_array[x+1][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1,my_array_oculto) 
+            if my_array[x+1][y]=="X":
+                my_array[x+1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y,my_array_oculto)
+        
+        else:
+                    
+            if my_array[x-1][y]=="X":
+                my_array[x-1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y,my_array_oculto)    
+            if my_array[x-1][y+1]=="X":
+                my_array[x-1][y+1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y+1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1,my_array_oculto)   
+            if my_array[x][y+1]=="X":
+                    my_array[x][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1,my_array_oculto)       
+            if my_array[x+1][y-1]=="X":
+                my_array[x+1][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y-1,my_array_oculto)                 
+            if my_array[x+1][y+1]=="X":
+                    my_array[x+1][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x+1][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y+1,my_array_oculto)                    
+            if my_array[x+1][y]=="X":
+                my_array[x+1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x+1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x+1,y,my_array_oculto)               
+            if my_array[x][y-1]=="X":
+                my_array[x][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1,my_array_oculto) 
+            if my_array[x-1][y-1]=="X":
+                    my_array[x-1][y-1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x-1][y-1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1,my_array_oculto)
+                
+    elif x==len(my_array)-1:
+        if y==0:
+           
+            if my_array[x-1][y]=="X":
+                my_array[x-1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y,my_array_oculto)  
+            if my_array[x-1][y+1]=="X":
+                my_array[x-1][y+1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y+1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1,my_array_oculto)
+            if my_array[x][y+1]=="X":
+                    my_array[x][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1,my_array_oculto)
+        
+        elif y==len(my_array)-1:
+           
+            if my_array[x-1][y]=="X":
+                my_array[x-1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y,my_array_oculto)
+            if my_array[x-1][y-1]=="X":
+                    my_array[x-1][y-1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x-1][y-1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1,my_array_oculto)
+            if my_array[x][y-1]=="X":
+                my_array[x][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1,my_array_oculto)
+                
+        else:
+           
+            if my_array[x][y-1]=="X":
+                my_array[x][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x,y-1,my_array_oculto)
+            if my_array[x-1][y-1]=="X":
+                my_array[x-1][y-1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y-1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y-1,my_array_oculto) 
+            if my_array[x-1][y]=="X":
+                my_array[x-1][y]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y,my_array_oculto)
+            if my_array[x-1][y+1]=="X":
+                my_array[x-1][y+1]="!"
+                if my_array_oculto is not None:
+                 my_array_oculto[x-1][y+1]="!"
+                comprobar_esloras_alrrededor_barco_hundido(my_array,x-1,y+1,my_array_oculto)
+            if my_array[x][y+1]=="X":
+                    my_array[x][y+1]="!"
+                    if my_array_oculto is not None:
+                     my_array_oculto[x][y+1]="!"
+                    comprobar_esloras_alrrededor_barco_hundido(my_array,x,y+1,my_array_oculto)
+
 def sonido_disparo_acertado_play(): #Reproduce el sonido de acierto
   pygame.mixer.Sound.play(sonido_acertado)   
       
@@ -414,13 +577,14 @@ def sonido_disparo_fallado_play(): #Reproduce el sonido de fallo
   pygame.mixer.Sound.play(sonido_fallado)   
           
 def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #Disparo del usuario introduciendo coordenadas
-        limpiar_consola() 
-        time.sleep(2)
-        hacer_tabla(tablerojug, "Tablero del jugador")
-        hacer_tabla(tablero_oculto,"Tablero de la máquina")
         coord_x=int
         coord_y=int
         while True: 
+         limpiar_consola() 
+         time.sleep(2)
+         hacer_tabla(tablerojug, "Tablero del jugador")
+         hacer_tabla(tablero_oculto,"Tablero de la máquina")
+         hacer_tabla(tablero)
          try:
            coord_x = int(input('Introduzca coordenada x (-1 para salir del juego):'))
            if coord_x==-1:
@@ -432,19 +596,19 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #D
             print("Por favor, introduzca un caracter válido. Recuerde que las coordenadas sólo pueden tomar valores desde el 0 al 9.")
             continue
            if tablero[coord_x, coord_y] == "O":
-            tablero[coord_x, coord_y] = "X"
-            tablero_oculto[coord_x, coord_y] = "X"
-            esloras_vivas_maquina-=1
-            print("Has acertado!")
-            sonido_disparo_acertado_play()
-            time.sleep(1)
-            barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
-            if barco_hundido:
-              tablero[coord_x, coord_y] = "!"
-              tablero_oculto[coord_x, coord_y] = "!"
-              comprobar_esloras_alrrededor_barco_hundido(tablero,coord_x,coord_y)
-              print("Barco hundido!")
-            limpiar_consola()
+             tablero[coord_x, coord_y] = "X"
+             tablero_oculto[coord_x, coord_y] = "X"
+             esloras_vivas_maquina-=1
+             print("Has acertado!")
+             sonido_disparo_acertado_play()
+             time.sleep(1)
+             barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
+             if barco_hundido:
+               tablero[coord_x, coord_y] = "!"
+               tablero_oculto[coord_x, coord_y] = "!"
+               comprobar_esloras_alrrededor_barco_hundido(tablero,coord_x,coord_y,tablero_oculto)
+               print("Barco hundido!")
+             continue 
            elif tablero[coord_x, coord_y] == " ":
             tablero[coord_x, coord_y] = "-"
             tablero_oculto[coord_x, coord_y] = "-"
