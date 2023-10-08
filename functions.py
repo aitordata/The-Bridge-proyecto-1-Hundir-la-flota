@@ -5,7 +5,7 @@ import time
 import pygame
 from variables import tablero_jugador,tablero_maquina,tablero_maquina_vista_usuario
 from variables import esloras_vivas_jugador,esloras_vivas_maquina
-from variables import sonido_acertado,sonido_fallado
+from variables import sonido_acertado,sonido_fallado,sonido_victoria,sonido_derrota
 
 def limpiar_consola(): #Limpia la consola
     os.system('clear')
@@ -304,7 +304,10 @@ def eleguir_coordenadas(orientación,x,y,eslora): #Pasandole la orientacion, las
                 coordenada_x3=x-3
                 coordenada_y3=y
                 return [coordenada_x,coordenada_y,coordenada_x2,coordenada_y2,coordenada_x3,coordenada_y3]
-                      
+
+def contador_esloras_vivas(tablero):  
+    esloras_vivas=np.count_nonzero(tablero == "O") 
+    return esloras_vivas        
 
 def colocar_barcos(my_array): #Coloca los barcos aleatoriamente, sin que se solapen, se salgan del tablero o haya otro barco en las posiciones colindantes. 
      contador_eslora1=0
@@ -717,13 +720,19 @@ def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y,my_array_oculto=None
 
 def sonido_disparo_acertado_play(): #Reproduce el sonido de acierto
   pygame.mixer.Sound.play(sonido_acertado)   
-      
 def sonido_disparo_fallado_play(): #Reproduce el sonido de fallo
   pygame.mixer.Sound.play(sonido_fallado)   
+def sonido_victoria_play():
+    pygame.mixer.Sound.play(sonido_victoria)
+def sonido_derrota_play():
+    pygame.mixer.Sound.play(sonido_derrota)
+  
+  
           
 def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #Disparo del usuario introduciendo coordenadas
         coord_x=int
         coord_y=int
+        esloras_vivas_maquina=20
         while True: 
          limpiar_consola() 
          time.sleep(2)
@@ -743,9 +752,12 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #D
            if tablero[coord_x, coord_y] == "O":
              tablero[coord_x, coord_y] = "X"
              tablero_oculto[coord_x, coord_y] = "X"
-             esloras_vivas_maquina-=1
+             esloras_vivas_maquina=contador_esloras_vivas(tablero_maquina)
+             if esloras_vivas_maquina==0:
+              break
              print("Has acertado!")
              sonido_disparo_acertado_play()
+             print(f"Esloras vivas máquina: {esloras_vivas_maquina}")
              time.sleep(1)
              barco_hundido=comprobar_barco_hundido(tablero,coord_x,coord_y)
              if barco_hundido:
@@ -768,7 +780,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #D
               
          except:
           print("Por favor, introduzca un caracter válido. Recuerde que las coordenadas sólo pueden tomar valores desde el 0 al 9.")
-        if coord_x==-1 or coord_y==-1:
+        if coord_x==-1 or coord_y==-1 or esloras_vivas_maquina==0:
           return False
         else: 
           return True
@@ -818,7 +830,7 @@ def bienvenida_y_dificultad(): #Pregunta la dificultad deseada
      except:
          print("Por favor,introduzca un número del 1 al 3.")
          
-def preguntar_colocar_barcos_manual(): #Pregunta si desea colocar los barcos manuelmente
+def preguntar_colocar_barcos_manual(): #Pregunta si quiere colocar los barcos manuelmente
    try: 
      colocar_barcos_manual= int(input("Pulse 1 si desea un tablero aleatorio o 2 si prefiere introducir los barcos manualmente: "))
      if colocar_barcos_manual==1:
