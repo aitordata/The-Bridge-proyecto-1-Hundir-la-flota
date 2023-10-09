@@ -225,8 +225,6 @@ def comprobar_barco_hundido(my_array,x,y):#Devuelve True cuando el barco no tien
             else:
               return condicion
 
-
-
 def condcionante_alrrededor(my_array,x,y):#Comprueba que no hay otro barco alrredor de unas coordenadas x e y.
     if x==0: 
         if y==0:
@@ -486,7 +484,6 @@ def colocar_barcos_manual(tablero_jug): #Colocacion manual de los barcos, propor
         except:
          print("Por favor, introduzca un caracter válido.")
 
-
 def comprobar_esloras_alrrededor_barco_hundido(my_array,x,y,my_array_oculto=None):#Comprueba que no hay otro barco alrredor de unas coordenadas x e y.
     if x==0: 
         if y==0:
@@ -722,13 +719,11 @@ def sonido_disparo_acertado_play(): #Reproduce el sonido de acierto
   pygame.mixer.Sound.play(sonido_acertado)   
 def sonido_disparo_fallado_play(): #Reproduce el sonido de fallo
   pygame.mixer.Sound.play(sonido_fallado)   
-def sonido_victoria_play():
+def sonido_victoria_play(): #Reproduce sonido victoria
     pygame.mixer.Sound.play(sonido_victoria)
-def sonido_derrota_play():
+def sonido_derrota_play(): #Reproduce sonido derrota
     pygame.mixer.Sound.play(sonido_derrota)
-  
-  
-          
+         
 def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #Disparo del usuario introduciendo coordenadas
         coord_x=int
         coord_y=int
@@ -738,7 +733,6 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #D
          time.sleep(2)
          hacer_tabla(tablerojug, "Tablero del jugador")
          hacer_tabla(tablero_oculto,"Tablero de la máquina")
-         hacer_tabla(tablero)
          try:
            coord_x = int(input('Introduzca coordenada x (-1 para salir del juego):'))
            if coord_x==-1:
@@ -784,7 +778,7 @@ def disparo_usuario(tablero,tablero_oculto,esloras_vivas_maquina,tablerojug): #D
           return False
         else: 
           return True
-                 
+                
 def disparo_maquina(tablero,esloras_vivas_jugador,tablero_oculto): #Disparo de la máquina con coordenadas aleatorias
         while True: 
                 coord_x = np.random.randint(0, 10)
